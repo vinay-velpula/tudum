@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immersive Experience</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #video-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        /* Shared Red Button Style */
+        .red-button {
+            padding: 15px 45px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            background-color: #E50914;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .red-button:hover {
+            background-color: #ff0000;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="video-container">
+        <video id="myVideo" playsinline>
+            <source src="Net.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <button id="exploreBtn" class="red-button">Explore</button>
+        <button id="insightsBtn" class="red-button" style="display: none;">Insights</button>
+    </div>
+
+    <script>
+        const exploreBtn = document.getElementById('exploreBtn');
+        const insightsBtn = document.getElementById('insightsBtn');
+        const video = document.getElementById('myVideo');
+        const container = document.getElementById('video-container');
+
+        // EXPLORE CLICK: Play video and go fullscreen
+        exploreBtn.addEventListener('click', () => {
+            video.style.display = 'block';
+            exploreBtn.style.display = 'none';
+
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            }
+
+            video.play();
+            video.style.cursor = 'none'; // Hide cursor during play
+        });
+
+        // VIDEO ENDED: Exit fullscreen and show Insights
+        video.onended = () => {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            video.style.display = 'none';
+            video.style.cursor = 'default';
+            insightsBtn.style.display = 'block';
+        };
+
+        // INSIGHTS CLICK: Open the new link
+        insightsBtn.addEventListener('click', () => {
+            // REPLACE THIS URL with your target link
+            window.open('https://datastudio.google.com/u/0/reporting/43cf20cf-cae6-46b8-8d72-d8f8db6fbb8a/page/iFRvF', '_self');
+        });
+    </script>
+</body>
+</html>
+
